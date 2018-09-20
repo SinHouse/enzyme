@@ -42,7 +42,7 @@ export function makeOptions(options) {
 }
 
 export function isCustomComponentElement(inst, adapter) {
-  return !!inst && adapter.isValidElement(inst) && typeof inst.type === 'function';
+  return !!inst && adapter.isValidElement(inst);
 }
 
 export function propsOfNode(node) {

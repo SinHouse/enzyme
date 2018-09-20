@@ -9,6 +9,7 @@ import {
   displayNameOfNode,
   spyMethod,
   nodeHasType,
+  isCustomComponentElement,
 } from 'enzyme/build/Utils';
 import getAdapter from 'enzyme/build/getAdapter';
 import {
@@ -636,6 +637,60 @@ describe('Utils', () => {
       const spy = spyMethod(obj, 'method');
       spy.restore();
       expect(Object.getOwnPropertyDescriptor(obj, 'method')).to.deep.equal(descriptor);
+    });
+  });
+
+  describe('isCustomComponentElement', () => {
+    const adapter = getAdapter();
+    describe('given a valid Element', () => {
+      it('returns true', () => {
+        class Foo extends React.Component {
+          render() { return <div />; }
+        }
+        expect(isCustomComponentElement(<Foo />, adapter)).to.equal(true);
+      });
+
+      describeIf(is('> 0.13'), 'stateless function elements', () => {
+        it('returns true', () => {
+          const Foo = () => <div />;
+
+          expect(isCustomComponentElement(<Foo />, adapter)).to.equal(true);
+        });
+      });
+      describeIf(is('>=16.3.0'), 'forwardRef Elements', () => {
+        it('returns true', () => {
+          const Foo = React.forwardRef(() => <div />);
+          expect(isCustomComponentElement(<Foo />, adapter)).to.equal(true);
+        });
+      });
+    });
+
+    describe('given an invalid Element', () => {
+      it('returns false with non Component instances', () => {
+        class Foo {
+        }
+
+        expect(isCustomComponentElement(new Foo(), adapter)).to.equal(false);
+      });
+
+      it('returns false with objects', () => {
+        const Foo = {};
+
+        expect(isCustomComponentElement(Foo, adapter)).to.equal(false);
+      });
+
+      it('returns false with void functions', () => {
+        const Foo = () => {
+        };
+
+        expect(isCustomComponentElement(Foo, adapter)).to.equal(false);
+      });
+
+      it('returns false with strings', () => {
+        const Foo = 'Foo';
+
+        expect(isCustomComponentElement(Foo, adapter)).to.equal(false);
+      });
     });
   });
 
