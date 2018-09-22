@@ -1014,4 +1014,15 @@ describe('Adapter', () => {
       expect(adapter.isFragment(<div />)).to.equal(false);
     });
   });
+
+  describeIf(is('>= 16.3'), 'determines if node isForwardRef', () => {
+    it('correctly identifies forwardRef', () => {
+      const ForwardRefComponent = React.forwardRef(() => <div />);
+      expect(adapter.isForwardRef(<ForwardRefComponent />)).to.equal(true);
+    });
+
+    it('correctly identifies a non-forwardRef', () => {
+      expect(adapter.isForwardRef(<div />)).to.equal(false);
+    });
+  });
 });

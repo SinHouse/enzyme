@@ -11,6 +11,7 @@ import TestUtils from 'react-dom/test-utils';
 import {
   isElement,
   isPortal,
+  isForwardRef,
   isValidElementType,
   AsyncMode,
   Fragment,
@@ -481,6 +482,10 @@ class ReactSixteenThreeAdapter extends EnzymeAdapter {
 
   isFragment(fragment) {
     return typeOfNode(fragment) === Fragment;
+  }
+
+  isForwardRef(forwardRef) {
+    return isForwardRef(forwardRef);
   }
 
   createElement(...args) {

@@ -42,7 +42,9 @@ export function makeOptions(options) {
 }
 
 export function isCustomComponentElement(inst, adapter) {
-  return !!inst && adapter.isValidElement(inst);
+  const isFunctionOrForwardRef = () => typeof inst.type === 'function'
+      || !!(adapter.isForwardRef && adapter.isForwardRef(inst));
+  return !!inst && adapter.isValidElement(inst) && isFunctionOrForwardRef();
 }
 
 export function propsOfNode(node) {

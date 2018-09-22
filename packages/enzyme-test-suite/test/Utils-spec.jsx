@@ -642,7 +642,7 @@ describe('Utils', () => {
 
   describe('isCustomComponentElement', () => {
     const adapter = getAdapter();
-    describe('given a valid Element', () => {
+    describe('given a valid CustomComponentElement', () => {
       it('returns true', () => {
         class Foo extends React.Component {
           render() { return <div />; }
@@ -657,37 +657,50 @@ describe('Utils', () => {
           expect(isCustomComponentElement(<Foo />, adapter)).to.equal(true);
         });
       });
+
       describeIf(is('>=16.3.0'), 'forwardRef Elements', () => {
         it('returns true', () => {
           const Foo = React.forwardRef(() => <div />);
+          // console.warn('ForwardRef', Foo);
+          // console.warn('ForwardRef', <div/>);
           expect(isCustomComponentElement(<Foo />, adapter)).to.equal(true);
         });
       });
     });
 
-    describe('given an invalid Element', () => {
-      it('returns false with non Component instances', () => {
+    describe('given an invalid CustomComponentElement', () => {
+      it('returns false for HTML elements', () => {
+        expect(isCustomComponentElement(<div />, adapter)).to.equal(false);
+      });
+
+      it('returns false for non Component instances', () => {
         class Foo {
         }
 
         expect(isCustomComponentElement(new Foo(), adapter)).to.equal(false);
       });
 
-      it('returns false with objects', () => {
+      it('returns false for objects', () => {
         const Foo = {};
 
         expect(isCustomComponentElement(Foo, adapter)).to.equal(false);
       });
 
-      it('returns false with void functions', () => {
+      it('returns false for void functions', () => {
         const Foo = () => {
         };
 
         expect(isCustomComponentElement(Foo, adapter)).to.equal(false);
       });
 
-      it('returns false with strings', () => {
+      it('returns false for strings', () => {
         const Foo = 'Foo';
+
+        expect(isCustomComponentElement(Foo, adapter)).to.equal(false);
+      });
+
+      it('returns false for null values', () => {
+        const Foo = null;
 
         expect(isCustomComponentElement(Foo, adapter)).to.equal(false);
       });
