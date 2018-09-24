@@ -1,7 +1,7 @@
 {
-  "name": "enzyme",
-  "version": "3.6.0",
-  "description": "JavaScript Testing utilities for React",
+  "name": "@tbm/enzyme",
+  "version": "3.6.0-custom",
+  "description": "TbM personalized JavaScript Testing utilities for React",
   "homepage": "http://airbnb.io/enzyme/",
   "main": "build",
   "scripts": {
@@ -11,11 +11,11 @@
     "prebuild": "npm run clean",
     "build": "babel src --out-dir build",
     "watch": "npm run build -- -w",
-    "prepublish": "npm run build && safe-publish-latest && (not-in-publish || cp ../../{LICENSE,README}.md ./)"
+    "prepublish": "npm run build && safe-publish-latest && (not-in-publish || cp ../../README.md ./ && cp ../../LICENSE.md ./)"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/airbnb/enzyme.git"
+    "url": "https://github.com/SinHouse/enzyme"
   },
   "keywords": [
     "javascript",
