@@ -22,8 +22,8 @@ import {
   Profiler,
   Portal,
 } from 'react-is';
-import { EnzymeAdapter } from 'enzyme';
-import { typeOfNode } from 'enzyme/build/Utils';
+import { EnzymeAdapter } from '@tbm/enzyme';
+import { typeOfNode } from '@tbm/enzyme/build/Utils';
 import {
   displayNameOfNode,
   elementToTree as utilElementToTree,
